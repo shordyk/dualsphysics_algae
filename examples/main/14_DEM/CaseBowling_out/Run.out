@@ -1,0 +1,759 @@
+
+
+ <DUALSPHYSICS5> Copyright (c) 2023 by
+ Dr Jose M. Dominguez Alonso, Dr Alejandro Crespo,
+ Prof. Moncho Gomez Gesteira, Prof. Benedict Rogers,
+ Dr Georgios Fourtakas, Prof. Peter Stansby,
+ Dr Renato Vacondio, Dr Corrado Altomare, Dr Angelo Tafuni,
+ Dr Orlando Garcia Feal, Ivan Martinez Estevez,
+ Dr Joseph O'Connor, Dr Aaron English
+
+ EPHYSLAB Environmental Physics Laboratory, Universidade de Vigo
+ School of Mechanical, Aerospace and Civil Engineering, University of Manchester
+
+ DualSPHysics is free software: you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public License
+ as published by the Free Software Foundation, either version 2.1 of
+ the License, or (at your option) any later version.
+
+ DualSPHysics is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public License
+ along with DualSPHysics. If not, see <http://www.gnu.org/licenses/>.
+
+ Free download source files and documentation from DualSPHysics website (http://dual.sphysics.org).
+ Full list of developers and contributors is available at https://dual.sphysics.org/developers
+ Properly cite the use of DualSPHysics (Dominguez et al., 2022) (https://dual.sphysics.org/references).
+
+
+DualSPHysics5 v5.2.274 (02-02-2024)
+====================================
+Threads by host for parallel execution: 64
+[Initialising JSphCpuSingle  12-08-2024 11:06:22]
+ProgramFile=".../bin/linux/DualSPHysics5.2CPU_linux64"
+ExecutionDir=".../examples/main/14_DEM"
+XmlFile=".../14_DEM/CaseBowling_out/CaseBowling.xml"
+OutputDir=".../main/14_DEM/CaseBowling_out"
+OutputDataDir=".../14_DEM/CaseBowling_out/data"
+XML-App: GenCase v5.0.278c (30-10-2023)
+XML-Vars (uservars + ctes): MResId=[0]  CaseName=["CaseBowling"]  Data2D=[1]  Data2DPosy=[1]  H=[0.0169706]  KernelSize=[0.0339411]  B=[1.00903e+06]  Gamma=[7]  Rhop0=[1000]  Dp=[0.01]  Gravity_x=[0]  Gravity_y=[0]  Gravity_z=[-9.81]  MassFluid=[0.1]  MassBound=[0.1]
+XML-Vars (parameters): TimeMax=[4]  TimeOut=[0.02]
+**Basic case configuration is loaded
+**Special case configuration is loaded
+Loading initial state of particles...
+Loaded particles: 11051
+MapRealPos(border)=(-0.005,0.999151,-0.000848528)-(4.295,1.00085,1.65085)
+MapRealPos(final)=(-0.005,0.999151,-0.000848528)-(4.295,1.00085,3.30255)
+**Initial state of particles is loaded
+**2D-Simulation parameters:
+CaseName="CaseBowling"
+RunName="CaseBowling"
+Simulate2DPosY=1
+Symmetry=False
+SavePosDouble=False
+SvExtraParts=""
+SaveFtAce=False
+SvTimers=True
+Boundary="DBC"
+StepAlgorithm="Symplectic"
+Kernel="Wendland"
+  Wendland.awen=1934.028
+  Wendland.bwen=-569859.4
+Viscosity="Artificial"
+  Visco=0.01
+  ViscoBoundFactor=1
+DensityDiffusion="None"
+Shifting="None"
+RigidAlgorithm="DCDEM"
+FloatingCount=71
+FtPause=0
+FtConstraints=False
+FtIgnoreRadius=False
+CaseNp=11051
+CaseNbound=11051
+CaseNfixed=530
+CaseNmoving=0
+CaseNfloat=10521
+CaseNfluid=0
+PeriodicActive="Axis-X"
+PeriodicXinc=(-4.3,0,1)
+Dp=0.01
+KernelH=0.016971  (CoefficientH=1.2; H/Dp=1.69706)
+KernelSize=0.03394112
+CteB=1009029
+Gamma=7
+RhopZero=1000
+Cs0=84.04284584365287
+CFLnumber=0.2
+DtIni=0.0002019275007519282
+DtMin=1.009637518804412e-05
+DtAllParticles=False
+MassFluid=0.1
+MassBound=0.1
+Coefficients for DEM:
+  Object Fixed  mkbound:0  mk:10
+    Young_Modulus: 2.1e+11
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.7
+  Object Floating  mkbound:9  mk:19
+    Young_Modulus: 2.1e+11
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.7
+  Object Floating  mkbound:10  mk:20
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:11  mk:21
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:12  mk:22
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:13  mk:23
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:14  mk:24
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:15  mk:25
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:16  mk:26
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:17  mk:27
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:18  mk:28
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:19  mk:29
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:20  mk:30
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:21  mk:31
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:22  mk:32
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:23  mk:33
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:24  mk:34
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:25  mk:35
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:26  mk:36
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:27  mk:37
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:28  mk:38
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:29  mk:39
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:30  mk:40
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:31  mk:41
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:32  mk:42
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:33  mk:43
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:34  mk:44
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:35  mk:45
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:36  mk:46
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:37  mk:47
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:38  mk:48
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:39  mk:49
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:40  mk:50
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:41  mk:51
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:42  mk:52
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:43  mk:53
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:44  mk:54
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:45  mk:55
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:46  mk:56
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:47  mk:57
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:48  mk:58
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:49  mk:59
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:50  mk:60
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:51  mk:61
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:52  mk:62
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:53  mk:63
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:54  mk:64
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:55  mk:65
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:56  mk:66
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:57  mk:67
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:58  mk:68
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:59  mk:69
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:60  mk:70
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:61  mk:71
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:62  mk:72
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:63  mk:73
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:64  mk:74
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:65  mk:75
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:66  mk:76
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:67  mk:77
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:68  mk:78
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:69  mk:79
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:70  mk:80
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:71  mk:81
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:72  mk:82
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:73  mk:83
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:74  mk:84
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:75  mk:85
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:76  mk:86
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:77  mk:87
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:78  mk:88
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+  Object Floating  mkbound:79  mk:89
+    Young_Modulus: 3e+09
+    PoissonRatio.: 0.3
+    Kfric........: 0.45
+    Restitution..: 0.6
+FtPause=0
+TimeMax=4
+TimePart=0.02
+Gravity=(0,0,-9.81)
+NpMinimum=11051
+RhopOut=True
+RhopOutMin=700
+RhopOutMax=1300
+WrnPartsOut=True
+CellMode="Full"
+ScellDiv=1
+MapCells=(129,1,98)
+CellDomFixed=False
+**Requested CPU memory for 11179 particles: 1.7 MB.
+DomCells=(129,1,98)
+DomCellCode="1+13_7_11"
+**JSphCpu: Requesting cpu memory for 11736 particles: 1.7 MB.
+**CellDiv: Requested cpu memory for 11736 particles: 0.4 MB.
+**CellDiv: Requested cpu memory for 12600 cells (CellMode=Full): 0.2 MB.
+ 
+RunMode="Pos-Double - OpenMP(Threads:64)"
+ 
+Particle summary:
+  Fixed....: 530  id:(0-529)   MKs:1 (10)
+  Moving...: 0
+  Floating.: 10521  id:(530-11050)   MKs:71 (19-89)
+  Fluid....: 0
+
+Total particles: 11051 (bound=11051 (fx=530 mv=0 ft=10521) fluid=0)
+Total MK blocks: 72 (bound=72 (fx=1 mv=0 ft=71) fluid=0)
+ 
+Allocated memory in CPU: 2512648 (2.40 MB)
+Part_0000        11051 particles successfully stored
+
+[Initialising simulation (x7akyfop)  12-08-2024 11:06:22]
+PART       PartTime      TotalSteps    Steps    Time/Sec   Finish time        
+=========  ============  ============  =======  =========  ===================
+Part_0001      0.020031           492      492      90.99  12-08-2024 11:12:25
+Part_0002      0.040022           987      495      91.97  12-08-2024 11:12:27
+Part_0003      0.060006          1601      614     117.55  12-08-2024 11:13:02
+Part_0004      0.080024          2179      578     108.83  12-08-2024 11:13:11
+Part_0005      0.100004          2797      618     126.08  12-08-2024 11:13:29
+Part_0006      0.120011          3427      630     124.84  12-08-2024 11:13:41
+Part_0007      0.140029          4063      636     120.74  12-08-2024 11:13:47
+Part_0008      0.160028          4699      636     121.37  12-08-2024 11:13:53
+Part_0009      0.180006          5301      602     116.63  12-08-2024 11:13:54
+Part_0010      0.200015          5914      613     120.67  12-08-2024 11:13:57
+Part_0011      0.220030          6509      595     114.15  12-08-2024 11:13:57
+Part_0012      0.240007          7136      627     120.38  12-08-2024 11:13:59
+Part_0013      0.260012          7752      616     118.84  12-08-2024 11:14:01
+Part_0014      0.280025          8336      584     110.64  12-08-2024 11:14:00
+Part_0015      0.300020          8915      579     110.97  12-08-2024 11:13:58
+Part_0016      0.320018          9492      577     110.31  12-08-2024 11:13:57
+Part_0017      0.340026         10065      573     109.07  12-08-2024 11:13:56
+Part_0018      0.360010         10681      616     118.01  12-08-2024 11:13:57
+Part_0019      0.380031         11248      567     107.92  12-08-2024 11:13:56
+Part_0020      0.400023         11811      563     107.55  12-08-2024 11:13:55
+Part_0021      0.420018         12370      559     106.80  12-08-2024 11:13:53
+Part_0022      0.440003         12953      583     111.19  12-08-2024 11:13:53
+Part_0023      0.460002         13538      585     111.48  12-08-2024 11:13:53
+Part_0024      0.480014         14092      554     105.36  12-08-2024 11:13:52
+Part_0025      0.500027         14644      552     104.72  12-08-2024 11:13:50
+Part_0026      0.520010         15195      551     104.69  12-08-2024 11:13:49
+Part_0027      0.540032         15780      585     112.15  12-08-2024 11:13:49
+Part_0028      0.560029         16325      545     107.51  12-08-2024 11:13:48
+Part_0029      0.580031         16868      543     102.48  12-08-2024 11:13:47
+Part_0030      0.600029         17445      577     113.25  12-08-2024 11:13:48
+Part_0031      0.620017         17983      538     102.49  12-08-2024 11:13:47
+Part_0032      0.640005         18538      555     105.93  12-08-2024 11:13:46
+Part_0033      0.660022         19095      557     106.28  12-08-2024 11:13:45
+Part_0034      0.680025         19666      571     113.47  12-08-2024 11:13:45
+Part_0035      0.700033         20199      533     101.58  12-08-2024 11:13:44
+Part_0036      0.720019         20730      531     102.07  12-08-2024 11:13:43
+Part_0037      0.740023         21330      600     114.24  12-08-2024 11:13:44
+Part_0038      0.760017         21869      539     103.35  12-08-2024 11:13:43
+Part_0039      0.780012         22396      527     100.09  12-08-2024 11:13:42
+Part_0040      0.800032         22967      571     127.44  12-08-2024 11:13:43
+Part_0041      0.820027         23491      524      99.84  12-08-2024 11:13:42
+Part_0042      0.840035         24068      577     109.95  12-08-2024 11:13:42
+Part_0043      0.860001         24589      521      99.28  12-08-2024 11:13:41
+Part_0044      0.880033         25111      522      98.69  12-08-2024 11:13:40
+Part_0045      0.900019         25631      520      98.79  12-08-2024 11:13:39
+Part_0046      0.920035         26151      520      98.64  12-08-2024 11:13:38
+Part_0047      0.940007         26669      518      97.92  12-08-2024 11:13:37
+Part_0048      0.960024         27187      518      97.49  12-08-2024 11:13:36
+Part_0049      0.980007         27909      722     135.72  12-08-2024 11:13:39
+Part_0050      1.000013         28425      516      97.25  12-08-2024 11:13:38
+Part_0051      1.020014         28940      515      97.04  12-08-2024 11:13:37
+Part_0052      1.040007         29454      514      97.42  12-08-2024 11:13:36
+Part_0053      1.060025         29968      514      96.56  12-08-2024 11:13:35
+Part_0054      1.080022         30481      513      96.42  12-08-2024 11:13:35
+Part_0055      1.100028         30994      513      95.96  12-08-2024 11:13:33
+Part_0056      1.120024         31506      512      95.67  12-08-2024 11:13:32
+Part_0057      1.140031         32097      591     110.44  12-08-2024 11:13:33
+Part_0058      1.160020         32608      511      95.58  12-08-2024 11:13:32
+Part_0059      1.180004         33119      511      95.83  12-08-2024 11:13:30
+Part_0060      1.200030         33631      512      96.16  12-08-2024 11:13:30
+Part_0061      1.220023         34197      566     106.43  12-08-2024 11:13:30
+Part_0062      1.240020         34708      511      96.36  12-08-2024 11:13:29
+Part_0063      1.260011         35219      511      96.67  12-08-2024 11:13:28
+Part_0064      1.280024         35731      512      96.96  12-08-2024 11:13:28
+Part_0065      1.300031         36302      571     107.58  12-08-2024 11:13:28
+Part_0066      1.320008         36814      512      96.21  12-08-2024 11:13:27
+Part_0067      1.340004         37327      513      96.30  12-08-2024 11:13:27
+Part_0068      1.360018         37841      514      95.63  12-08-2024 11:13:26
+Part_0069      1.380011         38355      514      97.22  12-08-2024 11:13:26
+Part_0070      1.400024         38870      515      96.18  12-08-2024 11:13:25
+Part_0071      1.420014         39385      515      96.72  12-08-2024 11:13:25
+Part_0072      1.440021         39901      516      96.32  12-08-2024 11:13:24
+Part_0073      1.460004         40417      516      96.18  12-08-2024 11:13:24
+Part_0074      1.480004         40934      517      95.47  12-08-2024 11:13:23
+Part_0075      1.500012         41731      797     147.18  12-08-2024 11:13:26
+Part_0076      1.520009         42551      820     153.42  12-08-2024 11:13:28
+Part_0077      1.540017         43363      812     154.95  12-08-2024 11:13:30
+Part_0078      1.560023         44163      800     152.66  12-08-2024 11:13:33
+Part_0079      1.580004         44954      791     151.01  12-08-2024 11:13:35
+Part_0080      1.600020         45752      798     152.19  12-08-2024 11:13:37
+Part_0081      1.620001         46551      799     153.32  12-08-2024 11:13:39
+Part_0082      1.640010         47362      811     155.39  12-08-2024 11:13:41
+Part_0083      1.660014         48154      792     155.46  12-08-2024 11:13:43
+Part_0084      1.680018         48942      788     157.08  12-08-2024 11:13:45
+**JSphCpu: Requesting cpu memory for 12317 particles: 1.8 MB.
+**CellDiv: Requested cpu memory for 12317 particles: 0.4 MB.
+Part_0085      1.700024         49737      795     157.96  12-08-2024 11:13:48
+Part_0086      1.720009         50511      774     154.22  12-08-2024 11:13:50
+Part_0087      1.740019         51293      782     154.84  12-08-2024 11:13:52
+Part_0088      1.760024         52086      793     156.87  12-08-2024 11:13:54
+Part_0089      1.780017         52870      784     156.11  12-08-2024 11:13:56
+Part_0090      1.800014         53650      780     154.89  12-08-2024 11:13:58
+Part_0091      1.820015         54445      795     158.20  12-08-2024 11:13:59
+Part_0092      1.840026         55194      749     147.58  12-08-2024 11:14:01
+Part_0093      1.860019         55965      771     151.19  12-08-2024 11:14:02
+Part_0094      1.880015         56756      791     154.71  12-08-2024 11:14:04
+Part_0095      1.900023         57533      777     152.08  12-08-2024 11:14:05
+Part_0096      1.920018         58313      780     152.09  12-08-2024 11:14:07
+Part_0097      1.940023         59112      799     156.01  12-08-2024 11:14:09
+Part_0098      1.960010         59906      794     154.91  12-08-2024 11:14:11
+Part_0099      1.980017         60704      798     155.05  12-08-2024 11:14:12
+Part_0100      2.000018         61487      783     151.47  12-08-2024 11:14:14
+Part_0101      2.020016         62263      776     149.95  12-08-2024 11:14:15
+Part_0102      2.040004         63034      771     148.86  12-08-2024 11:14:16
+Part_0103      2.060003         63806      772     148.59  12-08-2024 11:14:17
+Part_0104      2.080019         64607      801     152.56  12-08-2024 11:14:19
+Part_0105      2.100013         65400      793     150.17  12-08-2024 11:14:20
+Part_0106      2.120011         66199      799     150.81  12-08-2024 11:14:21
+Part_0107      2.140003         67012      813     153.60  12-08-2024 11:14:22
+Part_0108      2.160006         67811      799     149.89  12-08-2024 11:14:23
+Part_0109      2.180006         68624      813     152.15  12-08-2024 11:14:24
+Part_0110      2.200020         69429      805     149.82  12-08-2024 11:14:25
+Part_0111      2.220019         70225      796     150.96  12-08-2024 11:14:26
+Part_0112      2.240005         71081      856     160.96  12-08-2024 11:14:28
+Part_0113      2.260022         71894      813     152.54  12-08-2024 11:14:29
+Part_0114      2.280025         72683      789     148.58  12-08-2024 11:14:30
+Part_0115      2.300021         73481      798     159.01  12-08-2024 11:14:31
+Part_0116      2.320009         74301      820     154.73  12-08-2024 11:14:32
+Part_0117      2.340009         75107      806     151.50  12-08-2024 11:14:33
+Part_0118      2.360007         75913      806     150.24  12-08-2024 11:14:34
+Part_0119      2.380006         76689      776     143.91  12-08-2024 11:14:34
+Part_0120      2.400004         77510      821     152.00  12-08-2024 11:14:35
+Part_0121      2.420008         78334      824     152.69  12-08-2024 11:14:36
+Part_0122      2.440023         79143      809     153.09  12-08-2024 11:14:38
+Part_0123      2.460014         79939      796     148.26  12-08-2024 11:14:38
+Part_0124      2.480011         80743      804     150.28  12-08-2024 11:14:39
+Part_0125      2.500006         81566      823     154.55  12-08-2024 11:14:41
+Part_0126      2.520019         82381      815     152.72  12-08-2024 11:14:41
+Part_0127      2.540020         83184      803     150.84  12-08-2024 11:14:42
+Part_0128      2.560013         83975      791     149.80  12-08-2024 11:14:43
+Part_0129      2.580012         84778      803     152.31  12-08-2024 11:14:44
+Part_0130      2.600002         85567      789     146.56  12-08-2024 11:14:45
+Part_0131      2.620011         86358      791     146.98  12-08-2024 11:14:45
+Part_0132      2.640022         87166      808     150.35  12-08-2024 11:14:46
+Part_0133      2.660017         87983      817     152.56  12-08-2024 11:14:47
+Part_0134      2.680018         88772      789     147.91  12-08-2024 11:14:47
+Part_0135      2.700025         89601      829     155.42  12-08-2024 11:14:48
+Part_0136      2.720013         90410      809     152.97  12-08-2024 11:14:49
+Part_0137      2.740004         91232      822     155.45  12-08-2024 11:14:50
+Part_0138      2.760015         92063      831     156.31  12-08-2024 11:14:50
+Part_0139      2.780010         92859      796     149.09  12-08-2024 11:14:51
+Part_0140      2.800019         93666      807     150.56  12-08-2024 11:14:52
+Part_0141      2.820017         94464      798     150.38  12-08-2024 11:14:52
+Part_0142      2.840020         95233      769     144.21  12-08-2024 11:14:53
+Part_0143      2.860006         96001      768     144.36  12-08-2024 11:14:53
+Part_0144      2.880004         96802      801     150.41  12-08-2024 11:14:54
+Part_0145      2.900010         97551      749     141.17  12-08-2024 11:14:55
+Part_0146      2.920001         98280      729     137.74  12-08-2024 11:14:54
+Part_0147      2.940006         99056      776     146.96  12-08-2024 11:14:55
+Part_0148      2.960016         99815      759     143.98  12-08-2024 11:14:55
+Part_0149      2.980004        100552      737     139.71  12-08-2024 11:14:56
+Part_0150      3.000011        101356      804     152.57  12-08-2024 11:14:56
+Part_0151      3.020011        102124      768     157.92  12-08-2024 11:14:57
+Part_0152      3.040004        102918      794     159.85  12-08-2024 11:14:58
+Part_0153      3.060017        103698      780     149.19  12-08-2024 11:14:58
+Part_0154      3.080003        104480      782     155.04  12-08-2024 11:14:59
+Part_0155      3.100006        105237      757     144.65  12-08-2024 11:14:59
+Part_0156      3.120013        105976      739     141.39  12-08-2024 11:15:00
+Part_0157      3.140010        106708      732     139.82  12-08-2024 11:15:00
+Part_0158      3.160024        107470      762     145.28  12-08-2024 11:15:01
+Part_0159      3.180016        108243      773     147.72  12-08-2024 11:15:01
+Part_0160      3.200024        108986      743     141.94  12-08-2024 11:15:01
+Part_0161      3.220024        109735      749     143.27  12-08-2024 11:15:02
+Part_0162      3.240022        110496      761     145.45  12-08-2024 11:15:01
+Part_0163      3.260010        111283      787     150.80  12-08-2024 11:15:02
+Part_0164      3.280014        112058      775     148.21  12-08-2024 11:15:02
+Part_0165      3.300021        112831      773     148.48  12-08-2024 11:15:03
+Part_0166      3.320005        113606      775     148.90  12-08-2024 11:15:03
+Part_0167      3.340004        114368      762     147.61  12-08-2024 11:15:04
+Part_0168      3.360027        115118      750     143.31  12-08-2024 11:15:04
+Part_0169      3.380015        115867      749     143.60  12-08-2024 11:15:05
+Part_0170      3.400011        116622      755     144.71  12-08-2024 11:15:05
+Part_0171      3.420015        117337      715     137.06  12-08-2024 11:15:05
+Part_0172      3.440014        118047      710     136.66  12-08-2024 11:15:05
+Part_0173      3.460019        118764      717     137.19  12-08-2024 11:15:05
+Part_0174      3.480004        119493      729     139.63  12-08-2024 11:15:06
+Part_0175      3.500016        120220      727     135.04  12-08-2024 11:15:06
+Part_0176      3.520000        120959      739     130.93  12-08-2024 11:15:05
+Part_0177      3.540019        121700      741     131.12  12-08-2024 11:15:06
+Part_0178      3.560019        122437      737     131.10  12-08-2024 11:15:06
+Part_0179      3.580009        123191      754     134.34  12-08-2024 11:15:06
+Part_0180      3.600010        123942      751     133.91  12-08-2024 11:15:06
+Part_0181      3.620006        124684      742     132.72  12-08-2024 11:15:06
+Part_0182      3.640016        125427      743     132.34  12-08-2024 11:15:06
+Part_0183      3.660011        126181      754     134.58  12-08-2024 11:15:06
+Part_0184      3.680005        126936      755     134.93  12-08-2024 11:15:06
+Part_0185      3.700023        127692      756     135.11  12-08-2024 11:15:06
+Part_0186      3.720008        128433      741     132.44  12-08-2024 11:15:06
+Part_0187      3.740023        129119      686     122.77  12-08-2024 11:15:06
+Part_0188      3.760015        129791      672     120.40  12-08-2024 11:15:06
+Part_0189      3.780030        130459      668     119.66  12-08-2024 11:15:05
+Part_0190      3.800013        131115      656     117.45  12-08-2024 11:15:06
+Part_0191      3.820020        131787      672     120.39  12-08-2024 11:15:05
+Part_0192      3.840023        132446      659     117.93  12-08-2024 11:15:04
+Part_0193      3.860015        133111      665     119.40  12-08-2024 11:15:05
+Part_0194      3.880001        133773      662     118.86  12-08-2024 11:15:04
+Part_0195      3.900001        134434      661     118.63  12-08-2024 11:15:04
+Part_0196      3.920018        135088      654     117.12  12-08-2024 11:15:04
+Part_0197      3.940029        135745      657     117.44  12-08-2024 11:15:03
+Part_0198      3.960008        136403      658     118.02  12-08-2024 11:15:03
+Part_0199      3.980020        137063      660     118.39  12-08-2024 11:15:03
+Part_0200      4.000029        137724      661     118.86  12-08-2024 11:15:03
+
+[Simulation finished  12-08-2024 11:15:03]
+Particles of simulation (initial): 11051
+DTs adjusted to DtMin............: 0
+Excluded particles...............: 0
+Total Runtime....................: 521.723938 sec.
+Simulation Runtime...............: 521.586121 sec.
+Runtime per physical second......: 130.395599 sec.
+Steps per second.................: 264.048431
+Steps of simulation..............: 137724
+PART files.......................: 201
+Maximum number of particles......: 11522
+Maximum number of cells..........: 7611
+CPU Memory.......................: 2621876 (2.50 MB)
+ 
+[CPU Timers]
+VA-Init..........................: 0.137855 sec.
+NL-Limits........................: 16.978629 sec.
+NL-MakeSort......................: 34.591717 sec.
+NL-SortData......................: 53.413788 sec.
+NL-OutCheck......................: 0.007505 sec.
+CF-PreForces.....................: 82.896647 sec.
+CF-Forces........................: 219.531605 sec.
+SU-Shifting......................: 0 sec.
+SU-ComputeStep...................: 37.067551 sec.
+SU-Floating......................: 49.817391 sec.
+SU-Motion........................: 0 sec.
+SU-Periodic......................: 22.559790 sec.
+SU-ResizeNp......................: 0.001248 sec.
+SU-SavePart......................: 4.291553 sec.
+SU-Chrono........................: 0 sec.
+SU-Moorings......................: 0 sec.
+SU-InOut.........................: 0 sec.
+SU-Gauges........................: 0 sec.
+ 
+[Output files]
+- CfgInit_Domain.vtk...: Saves the limits of the case and the simulation domain limits.
+- CfgInit_MapCells.vtk.: Saves the cell division of the simulation domain.
+- Run.csv..............: One line CSV file with execution parameters and other simulation data.
+- Run.out..............: Log file of the simulation.
+- data/PartFloat.fbi4..: Binary file with floating body information for each instant (input for FloatingInfo program).
+- data/PartInfo.ibi4...: Binary file with execution information for each instant (input for PartInfo program).
+- data/PartOut_???.obi4: Binary file with particles excluded during simulation (input for PartVtkOut program).
+- data/Part_????.bi4...: Binary file with particle data in different instants.
+- data/Part_Head.ibi4..: Binary file with basic information of simulation data.
+ 
+[References]
+- Official solver reference DualSPHysics v5.0: J.M. Dominguez, G. Fourtakas,
+    C. Altomare, R.B. Canelas, A. Tafuni, O. Garcia-Feal, I. Martinez-Estevez,
+    A. Mokos, R. Vacondio, A.J.C. Crespo, B.D. Rogers, P.K. Stansby, M. Gomez-Gesteira.
+    2022. DualSPHysics: from fluid dynamics to multiphysics problems.
+    Computational Particle Mechanics, 9:867-895. doi: https://doi.org/10.1007/s40571-021-00404-2
+
+- Optimised CPU multi-core and GPU implementation (Dominguez et al., 2013  https://doi.org/10.1016/j.cpc.2012.10.015)
+- Dynamic boundary conditions (Crespo et al., 2007  https://doi.org/10.3970/cmc.2007.005.173)
+- Viscosity: Artificial (Monaghan, 1992  https://doi.org/10.1146/annurev.aa.30.090192.002551)
+- Kernel: Quintic Wendland (Wendland, 1995  https://doi.org/10.1007/BF02123482)
+- Time integration scheme: Symplectic (Leimkhuler, 1996  https://doi.org/10.1007/978-3-319-16375-8_1)
+- Periodic open boundaries (Gomez-Gesteira et al., 2012  https://doi.org/10.1016/j.cageo.2012.02.029)
+- Floating objects (Canelas et al., 2015  https://doi.org/10.1002/fld.4031)
+- Coupling SPH-DCDEM (Canelas et al., 2017  https://doi.org/10.1061/(ASCE)HY.1943-7900.0001331)
+
+Finished execution (code=0).
+

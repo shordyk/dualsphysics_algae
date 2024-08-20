@@ -1,0 +1,202 @@
+
+
+ <GENCASE>  Copyright (c) 2020 by Dr Jose M. Dominguez
+ All rights reserved.
+
+ GenCase is a free tool for DualSPHysics simulations.
+ DualSPHysics project is an international collaboration between
+ University of Vigo (Spain) and University of Manchester (UK).
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ * Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+ * Neither the name of the GenCase nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+GenCase v5.0.278c (30-10-2023)
+===============================
+OmpThreads: 16
+
+[LoadXMLInit]
+List: Block
+List: Row
+List: MAIN
+
+Total operations: 18
+[LoadXMLInit-End  time:0.043s]
+
+[Draw]
+List of available variables: Gravity_x=[0]  Gravity_y=[0]  Gravity_z=[-9.81]  Rhop0=[1000]  MResId=[0]  Dp=[0.01]  PosMin_x=[0]  PosMin_y=[1]  PosMin_z=[-0.02]  PosMax_x=[4.3]  PosMax_y=[1]  PosMax_z=[6]  CaseName=["CaseBowling"]  Data2D=[1]  Data2DPosy=[1]  H=[0.0169706]  MassBound=[0.1]  MassFluid=[0.1]
+
+Mk size: 1 bytes
+Case limits: (0,1,-0.02) - (4.3,1,6)
+Distance between points (Dp): 0.01
+Reference position: (0,0,0)
+Case domain: (0,0,0)-(429,0,601)
+Domain points: 430 x 1 x 602 = 258860
+Case parts: 1 x 602z
+Memory: 0.00Gb 0.25Mb (258860)
+
+> MAIN
+FileShapes> _Dp.vtk  shapes:494  points:616   (time:0.027s)
+<MAIN (Operations= 274+72+1 = 347)
+
+Triangles: 1124 (0 ignored)
+[Draw-End  time:0.038s]
+
+[LoadsXMLConfig]
+Execution parameters.
+Initials configuration.
+Floating bodies configuration.
+Properties configuration.
+Predefined motion configuration.
+[LoadsXMLConfig-End  time:0.018s]
+
+[PreparePoints]
+Computing Vtk-Cells data...  (time:0.003s)
+BitSizeTot: 25 (7 + 9+1+8)
+Points loaded: 11051
+Sorting points by Z...
+Sorting points by Mk...
+
+List of Points:
+Points -> Fixed-Boundary particles:
+  block[  0] (mk: 10):    530  -->     530
+Points -> Floating-Boundary particles:
+  block[  1] (mk: 19):   2061  -->    2061
+  block[  2] (mk: 20):    120  -->     120
+  block[  3] (mk: 21):    120  -->     120
+  block[  4] (mk: 22):    120  -->     120
+  block[  5] (mk: 23):    120  -->     120
+  block[  6] (mk: 24):    120  -->     120
+  block[  7] (mk: 25):    120  -->     120
+  block[  8] (mk: 26):    120  -->     120
+  block[  9] (mk: 27):    120  -->     120
+  block[ 10] (mk: 28):    120  -->     120
+  block[ 11] (mk: 29):    120  -->     120
+  block[ 12] (mk: 30):    120  -->     120
+  block[ 13] (mk: 31):    120  -->     120
+  block[ 14] (mk: 32):    120  -->     120
+  block[ 15] (mk: 33):    120  -->     120
+  block[ 16] (mk: 34):    120  -->     120
+  block[ 17] (mk: 35):    120  -->     120
+  block[ 18] (mk: 36):    120  -->     120
+  block[ 19] (mk: 37):    120  -->     120
+  block[ 20] (mk: 38):    120  -->     120
+  block[ 21] (mk: 39):    120  -->     120
+  block[ 22] (mk: 40):    120  -->     120
+  block[ 23] (mk: 41):    120  -->     120
+  block[ 24] (mk: 42):    120  -->     120
+  block[ 25] (mk: 43):    120  -->     120
+  block[ 26] (mk: 44):    120  -->     120
+  block[ 27] (mk: 45):    120  -->     120
+  block[ 28] (mk: 46):    120  -->     120
+  block[ 29] (mk: 47):    120  -->     120
+  block[ 30] (mk: 48):    120  -->     120
+  block[ 31] (mk: 49):    120  -->     120
+  block[ 32] (mk: 50):    120  -->     120
+  block[ 33] (mk: 51):    120  -->     120
+  block[ 34] (mk: 52):    120  -->     120
+  block[ 35] (mk: 53):    120  -->     120
+  block[ 36] (mk: 54):    120  -->     120
+  block[ 37] (mk: 55):    120  -->     120
+  block[ 38] (mk: 56):    120  -->     120
+  block[ 39] (mk: 57):    120  -->     120
+  block[ 40] (mk: 58):    120  -->     120
+  block[ 41] (mk: 59):    120  -->     120
+  block[ 42] (mk: 60):    120  -->     120
+  block[ 43] (mk: 61):    120  -->     120
+  block[ 44] (mk: 62):    120  -->     120
+  block[ 45] (mk: 63):    120  -->     120
+  block[ 46] (mk: 64):    120  -->     120
+  block[ 47] (mk: 65):    120  -->     120
+  block[ 48] (mk: 66):    120  -->     120
+  block[ 49] (mk: 67):    120  -->     120
+  block[ 50] (mk: 68):    120  -->     120
+  block[ 51] (mk: 69):    120  -->     120
+  block[ 52] (mk: 70):    120  -->     120
+  block[ 53] (mk: 71):    120  -->     120
+  block[ 54] (mk: 72):    120  -->     120
+  block[ 55] (mk: 73):    120  -->     120
+  block[ 56] (mk: 74):    120  -->     120
+  block[ 57] (mk: 75):    120  -->     120
+  block[ 58] (mk: 76):    120  -->     120
+  block[ 59] (mk: 77):    120  -->     120
+  block[ 60] (mk: 78):    120  -->     120
+  block[ 61] (mk: 79):    120  -->     120
+  block[ 62] (mk: 80):    120  -->     120
+  block[ 63] (mk: 81):    120  -->     120
+  block[ 64] (mk: 82):    120  -->     120
+  block[ 65] (mk: 83):    120  -->     120
+  block[ 66] (mk: 84):    120  -->     120
+  block[ 67] (mk: 85):    132  -->     132
+  block[ 68] (mk: 86):    132  -->     132
+  block[ 69] (mk: 87):    132  -->     132
+  block[ 70] (mk: 88):    132  -->     132
+  block[ 71] (mk: 89):    132  -->     132
+
+Particle summary:
+  Fixed....: 530  id:(0-529)   MKs:1 (10)
+  Moving...: 0
+  Floating.: 10521  id:(530-11050)   MKs:71 (19-89)
+  Fluid....: 0
+
+Total particles: 11051 (bound=11051 (fx=530 mv=0 ft=10521) fluid=0)
+Total MK blocks: 72 (bound=72 (fx=1 mv=0 ft=71) fluid=0)
+
+*** WARNING: No fluid particles were created in the defined domain.
+
+
+Maximum depth: 0.8 (fixed)
+Speed of system: 2.80143 (automatic)
+Speed of sound: max(coefsound*speedsystem,10*sqrt(g*depth))
+Speed of sound: 84.0428 max(84.0428,28.0143)
+Speed of sound: 84.0428 (automatic)
+
+Coefh:1.200000 (hdp:1.697056)
+
+[PreparePoints-End  time:0.004s]
+
+[SaveCase2D]
+CaseBowling_out/CaseBowling_MkCells.vtk  (time:0.003s, shapes:200, points:800)
+CaseBowling_out/CaseBowling.bi4<double>  (time:0.007s)
+CaseBowling_out/CaseBowling_All.vtk  (time: 0.008s)
+CaseBowling_out/CaseBowling_Bound.vtk  (time: 0.007s)
+CaseBowling_out/CaseBowling.xml  (time:0.009s)
+ 
+Data file copied: Floating_Materials.xml (xml row:68)
+
+Save files time: 0.034s
+
+Particle limits:
+  X range: 0 to 4.29 [m]
+  Y range: 1 to 1 [m]
+  Z range: 0 to 1.65 [m]
+
+[SaveCase2D-End  time:0.039s]
+
+[WARNINGS]
+1. No fluid particles were created in the defined domain.
+
+Time of execution: 0.369 sec. (16 threads)
+
+Finished execution (code=0).
+

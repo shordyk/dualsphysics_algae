@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<case>
+    <casedef>
+        <constantsdef>
+            <gravity x="0" y="0" z="-9.81" comment="Gravitational acceleration" units_comment="m/s^2" />
+            <rhop0 value="1000" comment="Reference density of the fluid" units_comment="kg/m^3" />
+            <rhopgradient value="2" comment="Initial density gradient 1:Rhop0, 2:Water column, 3:Max. water height (default=2)" />
+            <hswl value="0" auto="true" comment="Maximum still water level to calculate speedofsound using coefsound" units_comment="metres (m)" />
+            <gamma value="7" comment="Polytropic constant for water used in the state equation" />
+            <speedsystem value="0" auto="true" comment="Maximum system speed (by default the dam-break propagation is used)" />
+            <coefsound value="20" comment="Coefficient to multiply speedsystem" />
+            <speedsound value="60" auto="false" comment="Speed of sound to use in the simulation (by default speedofsound=coefsound*speedsystem)" />
+            <coefh value="1.2" comment="Coefficient to calculate the smoothing length (h=coefh*sqrt(3*dp^2) in 3D)" />
+            <cflnumber value="0.2" comment="Coefficient to multiply dt" />
+        </constantsdef>
+        <mkconfig boundcount="240" fluidcount="9" />
+        <geometry>
+            <predefinition>
+                <!-- User-defined variables  -->
+                <newvarcte L="0.09" _rem="Beam length [L]" />
+                <newvarcte N="10" _rem="Number of trunks" />
+                <newvarcte DeltaZ="#L/N" _rem="Trunk length [m]" />
+                <newvarcte h_s="0.004" _rem="Beam thickness [m]" />
+                <newvarcte E_s="4.67e+6" _rem="Young modulus [Pa]" />
+                <newvarcte rho_s="1114" _rem="density [kg/m^3]" />
+                <newvarcte I_s="5.33e-9" _rem="Second moment of inertia [m^4]" />
+                <newvarcte Area="4.00e-3" _rem="Cross section area [m^2]" />
+            </predefinition>
+            <definition dp="0.001" comment="Initial inter-particle distance" units_comment="metres (m)">
+                <pointref x="0" y="0" z="0" />
+                <pointmin x="-1.00" y="0.00" z="-0.05" />
+                <pointmax x="4.00" y="0.00" z="1.00" />
+            </definition>
+            <commands>
+                <!-- DEM beam definition -->
+                <list name="DEMbeam" printcall="false">
+                    <drawbox>
+                        <boxfill>solid</boxfill>
+                        <point x="0.60" y="-0.50" z="0.00" />
+                        <size x="#h_s" y="1" z="#DeltaZ" />
+                    </drawbox>
+                    <move x="0" y="0" z="#DeltaZ" />
+                    <setmknextbound next="true" />
+                </list>
+                <mainlist>
+                    <!-- geometry for mDBC -->
+                    <setshapemode>actual | bound</setshapemode>
+                    <setdrawmode mode="full" />
+                    <setfrdrawmode auto="true" />
+                    <setactive drawpoints="0" drawshapes="1" />
+                    <!-- Flexible Obstacle  -->
+                    <setmkbound mk="9" />
+                    <drawbox>
+                        <boxfill>solid</boxfill>
+                        <point x="0.60" y="-0.50" z="0.00" />
+                        <size x="#h_s" y="1" z="#L" />
+                        <layers vdp="0.5" />
+                    </drawbox>
+                    <!-- Moving Gate -->
+                    <setmkbound mk="1" />
+                    <drawbox>
+                        <boxfill>solid</boxfill>
+                        <point x="0.20" y="-0.5" z="0.00" />
+                        <size x="0.005" y="1" z="0.25" />
+                        <layers vdp="0.5" />
+                    </drawbox>
+                    <!-- Tank -->
+                    <setnormalinvert invert="true" />
+                    <setmkbound mk="0" />
+                    <drawbox>
+                        <boxfill>all</boxfill>
+                        <point x="0" y="-0.5" z="0" />
+                        <size x="0.8" y="1" z="0.6" />
+                        <layers vdp="0.5" />
+                    </drawbox>
+                    <shapeout file="hdp" />
+                    <resetdraw />
+                    <!-- Actual geometry -->
+                    <setshapemode>actual | bound</setshapemode>
+                    <setdrawmode mode="full" />
+                    <setfrdrawmode auto="true" />
+                    <!-- Fluid  -->
+                    <setmkfluid mk="0" />
+                    <drawbox>
+                        <boxfill>solid</boxfill>
+                        <point x="0.0" y="-0.5" z="0.00" />
+                        <size x="0.20" y="1" z="0.20" />
+                    </drawbox>
+                    <!-- Moving Gate -->
+                    <setmkbound mk="1" />
+                    <drawbox>
+                        <boxfill>solid</boxfill>
+                        <point x="0.20" y="-0.05" z="0.00" />
+                        <size x="0.005" y="0.1" z="0.25" />
+                    </drawbox>
+                    <shapeout file="gate" />
+                    <!-- Tank -->
+                    <setmkbound mk="0" />
+                    <drawbox>
+                        <boxfill>all^front^back</boxfill>
+                        <point x="0" y="-0.05" z="0" />
+                        <size x="0.8" y="0.1" z="0.6" />
+                        <layers vdp="1*,2,3" />
+                    </drawbox>
+                    <shapeout file="tank" />
+                    <!-- Flexible Obstacle  -->
+                    <setmkbound mk="10" />
+                    <runlist name="DEMbeam" times="#N" />
+                    <matrixreset />
+                </mainlist>
+            </commands>
+        </geometry>
+        <initials>
+            <densitydepth mkfluid="0" />
+        </initials>
+        <normals active="true">
+            <geometryfile file="[CaseName]_hdp_Actual.vtk" comment="File with boundary geometry (VTK format)" />
+            <distanceh value="2" comment="Maximum distance (H*distanceh) to compute normals data (default=2)" />
+            <svnormals value="1" comment="Saves VTK with particle normals according to <computenormals> for debug (default=1)" />
+        </normals>
+        <motion>
+            <objreal ref="1">
+                <begin mov="1" start="0" />
+                <mvfile id="1" duration="0.065">
+                    <file name="GateMotion.txt" fields="2" fieldtime="0" fieldz="1" />
+                </mvfile>
+            </objreal>
+        </motion>
+        <floatings>
+            <floating mkbound="10-19">
+                <massbody value="#DeltaZ*rho_s*Area" />
+            </floating>
+        </floatings>
+    </casedef>
+    <execution>
+        <special>
+            <chrono>
+                <collision activate="false" />
+                <savedata value="0.01" />
+                <schemescale value="1" />
+                <bodyfloating id="trunk" mkbound="10-19" />
+                <link_hinge idbody1="trunk10">
+                    <rotpoint x="#0.6+h_s/2" y="0.00" z="0.00" comment="Point for rotation" />
+                    <rotvector x="0" y="1" z="0" comment="Vector direction for rotation" />
+                    <stiffness value="#2*(E_s*I_s)/DeltaZ" comment="Torsional stiffness" />
+                    <damping value="0.00" comment="Torsional damping" />
+                </link_hinge>
+                <link_hinge idbody1="trunk10" idbody2="trunk11">
+                    <rotpoint x="#0.6+h_s/2" y="0.00" z="#DeltaZ" comment="Point for rotation" />
+                    <rotvector x="0" y="1" z="0" comment="Vector direction for rotation" />
+                    <stiffness value="#(E_s*I_s)/DeltaZ" comment="Torsional stiffness" />
+                    <damping value="0.00" comment="Torsional damping" />
+                </link_hinge>
+                <link_hinge idbody1="trunk11" idbody2="trunk12">
+                    <rotpoint x="#0.6+h_s/2" y="0.00" z="#DeltaZ*2" comment="Point for rotation" />
+                    <rotvector x="0" y="1" z="0" comment="Vector direction for rotation" />
+                    <stiffness value="#(E_s*I_s)/DeltaZ" comment="Torsional stiffness" />
+                    <damping value="0.00" comment="Torsional damping" />
+                </link_hinge>
+                <link_hinge idbody1="trunk12" idbody2="trunk13">
+                    <rotpoint x="#0.6+h_s/2" y="0.00" z="#DeltaZ*3" comment="Point for rotation" />
+                    <rotvector x="0" y="1" z="0" comment="Vector direction for rotation" />
+                    <stiffness value="#(E_s*I_s)/DeltaZ" comment="Torsional stiffness" />
+                    <damping value="0.00" comment="Torsional damping" />
+                </link_hinge>
+                <link_hinge idbody1="trunk13" idbody2="trunk14">
+                    <rotpoint x="#0.6+h_s/2" y="0.00" z="#DeltaZ*4" comment="Point for rotation" />
+                    <rotvector x="0" y="1" z="0" comment="Vector direction for rotation" />
+                    <stiffness value="#(E_s*I_s)/DeltaZ" comment="Torsional stiffness" />
+                    <damping value="0.00" comment="Torsional damping" />
+                </link_hinge>
+                <link_hinge idbody1="trunk14" idbody2="trunk15">
+                    <rotpoint x="#0.6+h_s/2" y="0.00" z="#DeltaZ*5" comment="Point for rotation" />
+                    <rotvector x="0" y="1" z="0" comment="Vector direction for rotation" />
+                    <stiffness value="#(E_s*I_s)/DeltaZ" comment="Torsional stiffness" />
+                    <damping value="0.00" comment="Torsional damping" />
+                </link_hinge>
+                <link_hinge idbody1="trunk15" idbody2="trunk16">
+                    <rotpoint x="#0.6+h_s/2" y="0.00" z="#DeltaZ*6" comment="Point for rotation" />
+                    <rotvector x="0" y="1" z="0" comment="Vector direction for rotation" />
+                    <stiffness value="#(E_s*I_s)/DeltaZ" comment="Torsional stiffness" />
+                    <damping value="0.00" comment="Torsional damping" />
+                </link_hinge>
+                <link_hinge idbody1="trunk16" idbody2="trunk17">
+                    <rotpoint x="#0.6+h_s/2" y="0.00" z="#DeltaZ*7" comment="Point for rotation" />
+                    <rotvector x="0" y="1" z="0" comment="Vector direction for rotation" />
+                    <stiffness value="#(E_s*I_s)/DeltaZ" comment="Torsional stiffness" />
+                    <damping value="0.00" comment="Torsional damping" />
+                </link_hinge>
+                <link_hinge idbody1="trunk17" idbody2="trunk18">
+                    <rotpoint x="#0.6+h_s/2" y="0.00" z="#DeltaZ*8" comment="Point for rotation" />
+                    <rotvector x="0" y="1" z="0" comment="Vector direction for rotation" />
+                    <stiffness value="#(E_s*I_s)/DeltaZ" comment="Torsional stiffness" />
+                    <damping value="0.00" comment="Torsional damping" />
+                </link_hinge>
+                <link_hinge idbody1="trunk18" idbody2="trunk19">
+                    <rotpoint x="#0.6+h_s/2" y="0.00" z="#DeltaZ*9" comment="Point for rotation" />
+                    <rotvector x="0" y="1" z="0" comment="Vector direction for rotation" />
+                    <stiffness value="#(E_s*I_s)/DeltaZ" comment="Torsional stiffness" />
+                    <damping value="0.00" comment="Torsional damping" />
+                </link_hinge>
+            </chrono>
+        </special>
+        <parameters>
+            <parameter key="SavePosDouble" value="0" comment="Saves particle position using double precision (default=0)" />
+            <parameter key="Boundary" value="2" comment="Boundary method 1:DBC, 2:mDBC (default=1)" />
+            <parameter key="StepAlgorithm" value="2" comment="Step Algorithm 1:Verlet, 2:Symplectic (def=1)" />
+            <parameter key="VerletSteps" value="40" comment="Verlet only: Number of steps to apply Eulerian equations (def=40)" />
+            <parameter key="Kernel" value="2" comment="Interaction Kernel 1:Cubic Spline, 2:Wendland (def=1)" />
+            <parameter key="ViscoTreatment" value="1" comment="Viscosity Formulation 1:Artificial, 2:Laminar+SPS (def=1)" />
+            <parameter key="Visco" value="0.01" comment="Viscosity value" />
+            <parameter key="ViscoBoundFactor" value="0" comment="Multiply viscosity value with boundary (default=1)" />
+            <parameter key="DensityDT" value="3" comment="Density Diffusion Term 0:None, 1:Molteni, 2:Fourtakas, 3:Fourtakas(full) (default=0)" />
+            <parameter key="DensityDTvalue" value="0.1" comment="DDT value (default=0.1)" />
+            <parameter key="Shifting" value="0" comment="Shifting mode 0:None, 1:Ignore bound, 2:Ignore fixed, 3:Full (default=0)" />
+            <parameter key="ShiftCoef" value="-2" comment="Coefficient for shifting computation (default=-2)" />
+            <parameter key="ShiftTFS" value="1.5" comment="Threshold to detect free surface. Typically 1.5 for 2D and 2.75 for 3D (default=0)" />
+            <parameter key="RigidAlgorithm" value="3" comment="Rigid Algorithm 1:SPH, 2:DEM, 3:Chrono (default=1)" />
+            <parameter key="FtPause" value="0.0" comment="Time to freeze the floatings at simulation start (warmup) (def=0)" />
+            <parameter key="#DtIni" value="0.00001" comment="Initial time step" />
+            <parameter key="#DtMin" value="0.0000001" comment="Minimum time step (def=0.00001)" />
+            <parameter key="DtAllParticles" value="0" comment="Velocity of particles used to calculate DT. 1:All, 0:Only fluid/floating (default=0)" />
+            <parameter key="TimeMax" value="1.00" comment="Time of simulation" units_comment="seconds" />
+            <parameter key="TimeOut" value="0.01" comment="Time out data" units_comment="seconds" />
+            <parameter key="PartsOutMax" value="1" comment="%/100 of fluid particles allowed to be excluded from domain (default=1)" units_comment="decimal" />
+            <parameter key="RhopOutMin" value="700" comment="Minimum rhop valid (default=700)" units_comment="kg/m^3" />
+            <parameter key="RhopOutMax" value="1300" comment="Maximum rhop valid (default=1300)" units_comment="kg/m^3" />
+            <simulationdomain comment="Defines domain of simulation (default=Uses minimun and maximum position of the generated particles)">
+                <posmin x="default" y="default" z="default" comment="e.g.: x=0.5, y=default-1, z=default-10%" />
+                <posmax x="default" y="default" z="default" />
+            </simulationdomain>
+        </parameters>
+    </execution>
+</case>

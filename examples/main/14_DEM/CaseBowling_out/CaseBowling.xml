@@ -1,0 +1,805 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<case app="GenCase v5.0.278c (30-10-2023)" date="12-08-2024 11:06:20">
+    <casedef>
+        <constantsdef>
+            <gravity x="0" y="0" z="-9.81" comment="Gravitational acceleration" units_comment="m/s^2" />
+            <rhop0 value="1000" comment="Reference density of the fluid" units_comment="kg/m^3" />
+            <rhopgradient value="2" comment="Initial density gradient 1:Rhop0, 2:Water column, 3:Max. water height (default=2)" />
+            <hswl value="0.8" auto="false" comment="Maximum still water level to calculate speedofsound using coefsound" units_comment="metres (m)" />
+            <gamma value="7" comment="Polytropic constant for water used in the state equation" />
+            <speedsystem value="0" auto="true" comment="Maximum system speed (by default the dam-break propagation is used)" />
+            <coefsound value="30" comment="Coefficient to multiply speedsystem" />
+            <speedsound value="0" auto="true" comment="Speed of sound to use in the simulation (by default speedofsound=coefsound*speedsystem)" />
+            <coefh value="1.2" comment="Coefficient to calculate the smoothing length (h=coefh*sqrt(3*dp^2) in 3D)" />
+            <cflnumber value="0.2" comment="Coefficient to multiply dt" />
+        </constantsdef>
+        <mkconfig boundcount="230" fluidcount="9">
+            <mkorientfluid mk="0" orient="Xyz" />
+        </mkconfig>
+        <geometry>
+            <definition dp="0.01" units_comment="metres (m)">
+                <pointref x="0" y="0" z="0" />
+                <pointmin x="0" y="1" z="-0.02" />
+                <pointmax x="4.3" y="1" z="6" />
+            </definition>
+            <commands>
+                <list name="Block" printcall="false">
+                    <drawbox>
+                        <boxfill>solid</boxfill>
+                        <point x="0" y="0" z="0.0" />
+                        <size x="0.11" y="2" z="0.1" />
+                    </drawbox>
+                    <move x="0.15" y="0" z="0" />
+                    <move x="0.02" y="0" z="0" />
+                    <setmknextbound next="true" />
+                </list>
+                <list name="Row" printcall="false">
+                    <matrixsave />
+                    <runlist name="Block" times="5" />
+                    <matrixload />
+                    <move x="0" y="0" z="0.1" />
+                </list>
+                <mainlist>
+                    <setshapemode>dp | bound</setshapemode>
+                    <setdrawmode mode="full" />
+                    <setmkbound mk="0" />
+                    <drawbeach mask="1|2|5">
+                        <point x="0" y="2" z="1" />
+                        <point x="1.5" y="2" z="0" />
+                        <point x="4.35" y="2" z="0" />
+                    </drawbeach>
+                    <setmkbound mk="9" />
+                    <drawcylinder radius="0.25" mask="0">
+                        <point x="0.3" y="0" z="1.4" />
+                        <point x="0.3" y="2" z="1.4" />
+                    </drawcylinder>
+                    <setmkbound mk="10" />
+                    <move x="3.4" y="0" z="0.02" />
+                    <runlist name="Row" times="14" />
+                    <shapeout file="" reset="true" />
+                </mainlist>
+            </commands>
+        </geometry>
+        <floatings>
+            <floating mkbound="9" relativeweight="2" property="steel + userdef01" />
+            <floating mkbound="10-79" relativeweight="0.50" property="pvc" />
+        </floatings>
+        <properties>
+            <propertyfile file="Floating_Materials.xml" path="materials" />
+            <property name="userdef01" Restitution_Coefficient_User="0.70" comment="User redefinition for Restitution Coefficient (-)" />
+            <links>
+                <link mkbound="0" property="steel + userdef01" comment="Property for the tank" />
+            </links>
+        </properties>
+    </casedef>
+    <execution>
+        <parameters>
+            <parameter key="SavePosDouble" value="0" comment="Saves particle position using double precision (default=0)" />
+            <parameter key="StepAlgorithm" value="2" comment="Step Algorithm 1:Verlet, 2:Symplectic (default=1)" />
+            <parameter key="VerletSteps" value="40" comment="Verlet only: Number of steps to apply Euler timestepping (default=40)" />
+            <parameter key="Kernel" value="2" comment="Interaction Kernel 1:Cubic Spline, 2:Wendland (default=2)" />
+            <parameter key="ViscoTreatment" value="1" comment="Viscosity formulation 1:Artificial, 2:Laminar+SPS (default=1)" />
+            <parameter key="Visco" value="0.01" comment="Viscosity value" />
+            <parameter key="ViscoBoundFactor" value="1" comment="Multiply viscosity value with boundary (default=1)" />
+            <parameter key="DensityDT" value="0" comment="Density Diffusion Term 0:None, 1:Molteni, 2:Fourtakas, 3:Fourtakas(full) (default=0)" />
+            <parameter key="DensityDTvalue" value="0.1" comment="DDT value (default=0.1)" />
+            <parameter key="Shifting" value="0" comment="Shifting mode 0:None, 1:Ignore bound, 2:Ignore fixed, 3:Full (default=0)" />
+            <parameter key="ShiftCoef" value="-2" comment="Coefficient for shifting computation (default=-2)" />
+            <parameter key="ShiftTFS" value="0" comment="Threshold to detect free surface. Typically 1.5 for 2D and 2.75 for 3D (default=0)" />
+            <parameter key="RigidAlgorithm" value="2" comment="Rigid Algorithm 0:collision-free, 1:SPH, 2:DEM, 3:Chrono (default=1)" />
+            <parameter key="FtPause" value="0.0" comment="Time to freeze the floatings at simulation start (warmup) (default=0)" units_comment="seconds" />
+            <parameter key="CoefDtMin" value="0.05" comment="Coefficient to calculate minimum time step dtmin=coefdtmin*h/speedsound (default=0.05)" />
+            <parameter key="DtIni" value="0" comment="Initial time step. Use 0 to defult use (default=h/speedsound)" units_comment="seconds" />
+            <parameter key="DtMin" value="0" comment="Minimum time step. Use 0 to defult use (default=coefdtmin*h/speedsound)" units_comment="seconds" />
+            <parameter key="DtFixed" value="0" comment="Fixed Dt value. Use 0 to disable (default=disabled)" units_comment="seconds" />
+            <parameter key="DtFixedFile" value="NONE" comment="Dt values are loaded from file. Use NONE to disable (default=disabled)" units_comment="milliseconds (ms)" />
+            <parameter key="DtAllParticles" value="0" comment="Velocity of particles used to calculate DT. 1:All, 0:Only fluid/floating (default=0)" />
+            <parameter key="TimeMax" value="4" comment="Time of simulation" units_comment="seconds" />
+            <parameter key="TimeOut" value="0.02" comment="Time out data" units_comment="seconds" />
+            <parameter key="PartsOutMax" value="1" comment="%/100 of fluid particles allowed to be excluded from domain (default=1)" units_comment="decimal" />
+            <parameter key="RhopOutMin" value="700" comment="Minimum rhop valid (default=700)" units_comment="kg/m^3" />
+            <parameter key="RhopOutMax" value="1300" comment="Maximum rhop valid (default=1300)" units_comment="kg/m^3" />
+            <parameter key="XPeriodicIncZ" value="1" comment="Periodic BC in X" />
+            <simulationdomain comment="Defines domain of simulation (default=Uses minimun and maximum position of the generated particles)">
+                <posmin x="default" y="default" z="default" comment="e.g.: x=0.5, y=default-1, z=default-10%" />
+                <posmax x="default" y="default" z="default + 100%" />
+            </simulationdomain>
+        </parameters>
+        <particles np="11051" nb="11051" nbf="530" mkboundfirst="10" mkfluidfirst="1">
+            <_summary>
+                <positions units_comment="metres (m)">
+                    <posmin x="0" y="1" z="0" />
+                    <posmax x="4.29" y="1" z="1.65" />
+                </positions>
+                <fixed count="530" id="0-529" mkcount="1" mkvalues="10" />
+                <floating count="10521" id="530-11050" mkcount="71" mkvalues="19-89" />
+            </_summary>
+            <fixed mkbound="0" mk="10" begin="0" count="530" property="steel+userdef01" />
+            <floating mkbound="9" mk="19" begin="530" count="2061" property="steel+userdef01">
+                <massbody value="412.2" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="0.3" y="1" z="1.4" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="6.76028" v12="0" v13="-2.08167e-18" />
+                    <values v21="0" v22="13.5206" v23="0" />
+                    <values v31="-2.08167e-18" v32="0" v33="6.76028" />
+                </inertia>
+            </floating>
+            <floating mkbound="10" mk="20" begin="2591" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.455" y="1" z="0.065" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="-2.1684e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="-2.1684e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="11" mk="21" begin="2711" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.625" y="1" z="0.065" units_comment="metres (m)" />
+                <inertia x="0.00495" y="0.0121" z="0.00715" units_comment="kg*m^2" />
+            </floating>
+            <floating mkbound="12" mk="22" begin="2831" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.795" y="1" z="0.065" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="2.1684e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="2.1684e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="13" mk="23" begin="2951" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.965" y="1" z="0.065" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="-8.67362e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="-8.67362e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="14" mk="24" begin="3071" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="4.135" y="1" z="0.065" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="8.67362e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="8.67362e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="15" mk="25" begin="3191" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.455" y="1" z="0.165" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="-1.51788e-19" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="-1.51788e-19" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="16" mk="26" begin="3311" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.625" y="1" z="0.165" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="-2.1684e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="-2.1684e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="17" mk="27" begin="3431" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.795" y="1" z="0.165" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="-2.1684e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="-2.1684e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="18" mk="28" begin="3551" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.965" y="1" z="0.165" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="-1.51788e-19" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="-1.51788e-19" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="19" mk="29" begin="3671" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="4.135" y="1" z="0.165" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="-2.1684e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="-2.1684e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="20" mk="30" begin="3791" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.455" y="1" z="0.265" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="1.30104e-19" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="1.30104e-19" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="21" mk="31" begin="3911" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.625" y="1" z="0.265" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="-1.73472e-19" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="-1.73472e-19" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="22" mk="32" begin="4031" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.795" y="1" z="0.265" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="-4.33681e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="-4.33681e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="23" mk="33" begin="4151" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.965" y="1" z="0.265" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="-1.30104e-19" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="-1.30104e-19" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="24" mk="34" begin="4271" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="4.135" y="1" z="0.265" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="-4.33681e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="-4.33681e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="25" mk="35" begin="4391" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.455" y="1" z="0.365" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="-2.1684e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="-2.1684e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="26" mk="36" begin="4511" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.625" y="1" z="0.365" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="2.1684e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="2.1684e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="27" mk="37" begin="4631" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.795" y="1" z="0.365" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="-6.50521e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="-6.50521e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="28" mk="38" begin="4751" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.965" y="1" z="0.365" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="-4.33681e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="-4.33681e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="29" mk="39" begin="4871" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="4.135" y="1" z="0.365" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="4.33681e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="4.33681e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="30" mk="40" begin="4991" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.455" y="1" z="0.465" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="2.1684e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="2.1684e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="31" mk="41" begin="5111" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.625" y="1" z="0.465" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="6.50521e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="6.50521e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="32" mk="42" begin="5231" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.795" y="1" z="0.465" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="-1.51788e-19" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="-1.51788e-19" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="33" mk="43" begin="5351" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.965" y="1" z="0.465" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="4.33681e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="4.33681e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="34" mk="44" begin="5471" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="4.135" y="1" z="0.465" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="8.67362e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="8.67362e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="35" mk="45" begin="5591" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.455" y="1" z="0.565" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="-8.67362e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="-8.67362e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="36" mk="46" begin="5711" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.625" y="1" z="0.565" units_comment="metres (m)" />
+                <inertia x="0.00495" y="0.0121" z="0.00715" units_comment="kg*m^2" />
+            </floating>
+            <floating mkbound="37" mk="47" begin="5831" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.795" y="1" z="0.565" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="1.30104e-19" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="1.30104e-19" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="38" mk="48" begin="5951" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.965" y="1" z="0.565" units_comment="metres (m)" />
+                <inertia x="0.00495" y="0.0121" z="0.00715" units_comment="kg*m^2" />
+            </floating>
+            <floating mkbound="39" mk="49" begin="6071" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="4.135" y="1" z="0.565" units_comment="metres (m)" />
+                <inertia x="0.00495" y="0.0121" z="0.00715" units_comment="kg*m^2" />
+            </floating>
+            <floating mkbound="40" mk="50" begin="6191" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.455" y="1" z="0.665" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="-4.33681e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="-4.33681e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="41" mk="51" begin="6311" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.625" y="1" z="0.665" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="4.33681e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="4.33681e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="42" mk="52" begin="6431" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.795" y="1" z="0.665" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="8.67362e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="8.67362e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="43" mk="53" begin="6551" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.965" y="1" z="0.665" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="-4.33681e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="-4.33681e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="44" mk="54" begin="6671" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="4.135" y="1" z="0.665" units_comment="metres (m)" />
+                <inertia x="0.00495" y="0.0121" z="0.00715" units_comment="kg*m^2" />
+            </floating>
+            <floating mkbound="45" mk="55" begin="6791" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.455" y="1" z="0.765" units_comment="metres (m)" />
+                <inertia x="0.00495" y="0.0121" z="0.00715" units_comment="kg*m^2" />
+            </floating>
+            <floating mkbound="46" mk="56" begin="6911" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.625" y="1" z="0.765" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="-8.67362e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="-8.67362e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="47" mk="57" begin="7031" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.795" y="1" z="0.765" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="-4.33681e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="-4.33681e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="48" mk="58" begin="7151" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.965" y="1" z="0.765" units_comment="metres (m)" />
+                <inertia x="0.00495" y="0.0121" z="0.00715" units_comment="kg*m^2" />
+            </floating>
+            <floating mkbound="49" mk="59" begin="7271" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="4.135" y="1" z="0.765" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="-4.33681e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="-4.33681e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="50" mk="60" begin="7391" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.455" y="1" z="0.865" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="2.1684e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="2.1684e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="51" mk="61" begin="7511" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.625" y="1" z="0.865" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="1.73472e-19" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="1.73472e-19" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="52" mk="62" begin="7631" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.795" y="1" z="0.865" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="-4.33681e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="-4.33681e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="53" mk="63" begin="7751" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.965" y="1" z="0.865" units_comment="metres (m)" />
+                <inertia x="0.00495" y="0.0121" z="0.00715" units_comment="kg*m^2" />
+            </floating>
+            <floating mkbound="54" mk="64" begin="7871" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="4.135" y="1" z="0.865" units_comment="metres (m)" />
+                <inertia x="0.00495" y="0.0121" z="0.00715" units_comment="kg*m^2" />
+            </floating>
+            <floating mkbound="55" mk="65" begin="7991" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.455" y="1" z="0.965" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="-8.67362e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="-8.67362e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="56" mk="66" begin="8111" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.625" y="1" z="0.965" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="4.33681e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="4.33681e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="57" mk="67" begin="8231" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.795" y="1" z="0.965" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="8.67362e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="8.67362e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="58" mk="68" begin="8351" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.965" y="1" z="0.965" units_comment="metres (m)" />
+                <inertia x="0.00495" y="0.0121" z="0.00715" units_comment="kg*m^2" />
+            </floating>
+            <floating mkbound="59" mk="69" begin="8471" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="4.135" y="1" z="0.965" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="8.67362e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="8.67362e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="60" mk="70" begin="8591" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.455" y="1" z="1.065" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="1.95156e-19" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="1.95156e-19" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="61" mk="71" begin="8711" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.625" y="1" z="1.065" units_comment="metres (m)" />
+                <inertia x="0.00495" y="0.0121" z="0.00715" units_comment="kg*m^2" />
+            </floating>
+            <floating mkbound="62" mk="72" begin="8831" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.795" y="1" z="1.065" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="1.0842e-19" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="1.0842e-19" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="63" mk="73" begin="8951" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.965" y="1" z="1.065" units_comment="metres (m)" />
+                <inertia x="0.00495" y="0.0121" z="0.00715" units_comment="kg*m^2" />
+            </floating>
+            <floating mkbound="64" mk="74" begin="9071" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="4.135" y="1" z="1.065" units_comment="metres (m)" />
+                <inertia x="0.00495" y="0.0121" z="0.00715" units_comment="kg*m^2" />
+            </floating>
+            <floating mkbound="65" mk="75" begin="9191" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.455" y="1" z="1.165" units_comment="metres (m)" />
+                <inertia x="0.00495" y="0.0121" z="0.00715" units_comment="kg*m^2" />
+            </floating>
+            <floating mkbound="66" mk="76" begin="9311" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.625" y="1" z="1.165" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="8.67362e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="8.67362e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="67" mk="77" begin="9431" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.795" y="1" z="1.165" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="-4.33681e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="-4.33681e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="68" mk="78" begin="9551" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.965" y="1" z="1.165" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="-8.67362e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="-8.67362e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="69" mk="79" begin="9671" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="4.135" y="1" z="1.165" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="4.33681e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="4.33681e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="70" mk="80" begin="9791" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.455" y="1" z="1.265" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="-1.51788e-19" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="-1.51788e-19" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="71" mk="81" begin="9911" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.625" y="1" z="1.265" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="-8.67362e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="-8.67362e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="72" mk="82" begin="10031" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.795" y="1" z="1.265" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="-4.33681e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="-4.33681e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="73" mk="83" begin="10151" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.965" y="1" z="1.265" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="-4.33681e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="-4.33681e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="74" mk="84" begin="10271" count="120" property="pvc">
+                <massbody value="6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="4.135" y="1" z="1.265" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.00495" v12="0" v13="-4.33681e-20" />
+                    <values v21="0" v22="0.0121" v23="0" />
+                    <values v31="-4.33681e-20" v32="0" v33="0.00715" />
+                </inertia>
+            </floating>
+            <floating mkbound="75" mk="85" begin="10391" count="132" property="pvc">
+                <massbody value="6.6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.455" y="1" z="1.37" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.0066" v12="0" v13="-4.33681e-20" />
+                    <values v21="0" v22="0.014465" v23="0" />
+                    <values v31="-4.33681e-20" v32="0" v33="0.007865" />
+                </inertia>
+            </floating>
+            <floating mkbound="76" mk="86" begin="10523" count="132" property="pvc">
+                <massbody value="6.6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.625" y="1" z="1.37" units_comment="metres (m)" />
+                <inertia x="0.0066" y="0.014465" z="0.007865" units_comment="kg*m^2" />
+            </floating>
+            <floating mkbound="77" mk="87" begin="10655" count="132" property="pvc">
+                <massbody value="6.6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.795" y="1" z="1.37" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.0066" v12="0" v13="-1.51788e-19" />
+                    <values v21="0" v22="0.014465" v23="0" />
+                    <values v31="-1.51788e-19" v32="0" v33="0.007865" />
+                </inertia>
+            </floating>
+            <floating mkbound="78" mk="88" begin="10787" count="132" property="pvc">
+                <massbody value="6.6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="3.965" y="1" z="1.37" units_comment="metres (m)" />
+                <inertia units_comment="kg*m^2">
+                    <values v11="0.0066" v12="0" v13="8.67362e-20" />
+                    <values v21="0" v22="0.014465" v23="0" />
+                    <values v31="8.67362e-20" v32="0" v33="0.007865" />
+                </inertia>
+            </floating>
+            <floating mkbound="79" mk="89" begin="10919" count="132" property="pvc">
+                <massbody value="6.6" units_comment="kg" />
+                <masspart value="0.1" units_comment="kg" />
+                <center x="4.135" y="1" z="1.37" units_comment="metres (m)" />
+                <inertia x="0.0066" y="0.014465" z="0.007865" units_comment="kg*m^2" />
+            </floating>
+            <properties>
+                <links>
+                    <link mk="10,19" property="steel+userdef01" />
+                    <link mk="20-89" property="pvc" />
+                </links>
+                <property name="steel">
+                    <Young_Modulus value="210000000000.0" comment="Young Modulus (N/m2)" />
+                    <PoissonRatio value="0.30" comment="Poisson Ratio (-)" />
+                    <Restitution_Coefficient value="0.80" comment="Restitution Coefficient (-)" />
+                    <Kfric value="0.45" comment="Kinetic friction coefficient" />
+                </property>
+                <property name="pvc">
+                    <Young_Modulus value="3000000000.0" comment="Young Modulus (N/m2)" />
+                    <PoissonRatio value="0.30" comment="Poisson Ratio (-)" />
+                    <Restitution_Coefficient value="0.60" comment="Restitution Coefficient (-)" />
+                    <Kfric value="0.45" comment="Kinetic friction coefficient" />
+                </property>
+                <property name="userdef01" Restitution_Coefficient_User="0.70" comment="User redefinition for Restitution Coefficient (-)" />
+            </properties>
+        </particles>
+        <constants>
+            <data2d value="true" />
+            <data2dposy value="1" units_comment="metres (m)" />
+            <gravity x="0" y="0" z="-9.81" units_comment="m/s^2" />
+            <cflnumber value="0.2" />
+            <gamma value="7" />
+            <rhop0 value="1000" units_comment="kg/m^3" />
+            <dp value="0.01" units_comment="metres (m)" />
+            <h value="0.016970562748" units_comment="metres (m)" />
+            <b value="1009028.5714" units_comment="Pascal (Pa)" />
+            <massbound value="0.1" units_comment="kg" />
+            <massfluid value="0.1" units_comment="kg" />
+        </constants>
+        <uservars>
+            <varnum name="MResId" value="0" />
+        </uservars>
+        <motion />
+        <vtkout mkboundfirst="10" mkfluidfirst="1">
+            <vtkfile name="CaseBowling__Dp.vtk" mk="10,19-89" mkbound="0,9-79" />
+        </vtkout>
+    </execution>
+</case>
